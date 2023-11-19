@@ -42,6 +42,7 @@ jobs:
         terraform apply -auto-approve
 
   deploy-layer:
+    needs: build-infras
     runs-on: self-hosted
     container: python:3.10
 
@@ -72,7 +73,8 @@ jobs:
         aws lambda update-function-configuration --function-name ${{ env.LAMBDA_NAME }} --layers $layer_arn
 
   deploy-lambda-code:
-    runs-on: ubuntu-latest
+    needs: deploy-layer
+    runs-on: self-hosted
     container: python:3.10
 
     steps:
