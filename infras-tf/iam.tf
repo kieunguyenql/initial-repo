@@ -9,13 +9,9 @@ data "aws_iam_policy_document" "lambda-assume-role-policy" {
   }
 }
 
-resource "random_string" "test" {
-  length = 4
-  lower  = true
-}
 
 resource "aws_iam_role" "lambda_role" {
-  name               = "${var.function_name}-${random_string.random_suffix.result}"
+  name               = var.function_name
   assume_role_policy = data.aws_iam_policy_document.lambda-assume-role-policy.json
 }
 
@@ -46,7 +42,7 @@ data "aws_iam_policy_document" "common_policies" {
 
 resource "aws_iam_policy" "lambda_common_policy" {
   policy = data.aws_iam_policy_document.common_policies.json
-  name   = "${var.function_name}-${random_string.random_suffix.result}"
+  name   = var.function_name
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_common_policy_attachment" {
