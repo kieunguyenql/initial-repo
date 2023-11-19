@@ -7,7 +7,7 @@ on:
 
 env:
   LAMBDA_NAME: "demo-backstage"
-  PACKAGE_NAME: "${{LAMBDA_NAME}}-python-packages"
+  PACKAGE_NAME: "demo-backstage-python-packages"
   AWS_DEFAULT_REGION: "ap-southeast-2"
 
 jobs:
