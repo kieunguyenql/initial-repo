@@ -1,9 +1,7 @@
 name: Lambda Deployment
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 env:
   LAMBDA_NAME: "demo-backstage"
