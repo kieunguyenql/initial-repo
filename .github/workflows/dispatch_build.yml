@@ -49,7 +49,7 @@ jobs:
         cd infras-tf
         terraform init
         terraform plan
-        terraform apply -auto-approve -var-file ${{ github.event.inputs.function_name }}-terraform.tfvars
+        terraform apply -auto-approve -var-file="${{ github.event.inputs.function_name }}-terraform.tfvars"
     - name: push terraform.tfvars to s3 buckets
       run:  aws s3 cp terraform.tfvars s3://${{ env.AWS_TERRAFORM_BACKEND_BUCKET }}/terraform/${{ github.event.inputs.function_name }}-terraform.tfvars
 
