@@ -42,14 +42,14 @@ jobs:
         ./aws/install
         aws --version
     - name: create terraform.tfvars file
-      run: echo -e 'function_name = "${{ github.event.inputs.function_name }}"\ndynamodb_partition_key = "${{ github.event.inputs.dynamodb_partition_key }}"\napigw_stage_name = "${{ github.event.inputs.apigw_stage_name }}"' > ${{ github.event.inputs.function_name }}-terraform.tfvars
+      run: echo -e 'function_name = "${{ github.event.inputs.function_name }}"\ndynamodb_partition_key = "${{ github.event.inputs.dynamodb_partition_key }}"\napigw_stage_name = "${{ github.event.inputs.apigw_stage_name }}"' > ${{ github.event.inputs.function_name }}.tfvars
 
     - name: Build Infrastructure
       run: |
         cd infras-tf
         terraform init
         terraform plan
-        terraform apply -auto-approve -var-file="${{ github.event.inputs.function_name }}-terraform.tfvars"
+        terraform apply -var-file="${{ github.event.inputs.function_name }}.tfvars" -auto-approve
     - name: push terraform.tfvars to s3 buckets
       run:  aws s3 cp terraform.tfvars s3://${{ env.AWS_TERRAFORM_BACKEND_BUCKET }}/terraform/${{ github.event.inputs.function_name }}-terraform.tfvars
 
