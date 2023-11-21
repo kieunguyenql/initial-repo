@@ -90,19 +90,20 @@ resource "aws_api_gateway_integration" "product_integration_delete" {
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.lambda_function.invoke_arn
 }
-############### API gateway's state ########################
-resource "aws_api_gateway_stage" "demo_backstage" {
-  stage_name    = var.apigw_stage_name
-  deployment_id = aws_api_gateway_deployment.demo_backstage.id
-  rest_api_id   = aws_api_gateway_rest_api.demo_backstage.id
-}
+
 ############### api-gateway deployment
 resource "aws_api_gateway_deployment" "demo_backstage" {
   depends_on    = [aws_api_gateway_resource.url_path, aws_api_gateway_method.health_get, aws_api_gateway_method.products_get, aws_api_gateway_method.product_curd_medthods,
                 aws_api_gateway_integration.health_integration, aws_api_gateway_integration.product_integration_delete, aws_api_gateway_integration.product_integration_get,
                 aws_api_gateway_integration.product_integration_patch, aws_api_gateway_integration.product_integration_post, aws_api_gateway_integration.products_integration]
   rest_api_id   = aws_api_gateway_rest_api.demo_backstage.id
-  stage_name    = aws_api_gateway_stage.demo_backstage.id 
+}
+
+############### API gateway's state ########################
+resource "aws_api_gateway_stage" "demo_backstage" {
+  stage_name    = var.apigw_stage_name
+  deployment_id = aws_api_gateway_deployment.demo_backstage.id
+  rest_api_id   = aws_api_gateway_rest_api.demo_backstage.id
 }
 
 ########### Permission to call lambda
