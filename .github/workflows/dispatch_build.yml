@@ -42,7 +42,7 @@ jobs:
         ./aws/install
         aws --version
     - name: create terraform.tfvars file
-      run: echo "function_name = \"${{ github.event.inputs.function_name }}\"\ndynamodb_partition_key = \"${{ github.event.inputs.dynamodb_partition_key }}\"\napigw_stage_name = \"${{ github.event.inputs.apigw_stage_name }}\"" > ${{ github.event.inputs.function_name }}-terraform.tfvars
+      run: echo -e "function_name = ${{ github.event.inputs.function_name }}\ndynamodb_partition_key = ${{ github.event.inputs.dynamodb_partition_key }}\napigw_stage_name = ${{ github.event.inputs.apigw_stage_name }}" > ${{ github.event.inputs.function_name }}-terraform.tfvars
 
     - name: Build Infrastructure
       run: |
