@@ -44,17 +44,14 @@ jobs:
     - name: create terraform.tfvars file
       run: |
         printf 'function_name = "${{ github.event.inputs.function_name }}"\ndynamodb_partition_key = "${{ github.event.inputs.dynamodb_partition_key }}"\napigw_stage_name = "${{ github.event.inputs.apigw_stage_name }}"' > ${{ github.event.inputs.function_name }}.tfvars
-        aws s3 cp ${{ github.event.inputs.function_name }}.tfvars s3://${{ env.AWS_TERRAFORM_BACKEND_BUCKET }}/terraform/${{ github.event.inputs.function_name }}.tfvars
+        mv ${{ github.event.inputs.function_name }}.tfvars ./infras-tf
     - name: Build Infrastructure
       run: |
-        printf 'function_name = "${{ github.event.inputs.function_name }}"\ndynamodb_partition_key = "${{ github.event.inputs.dynamodb_partition_key }}"\napigw_stage_name = "${{ github.event.inputs.apigw_stage_name }}"' > ${{ github.event.inputs.function_name }}.tfvars
-        aws s3 cp ${{ github.event.inputs.function_name }}.tfvars s3://${{ env.AWS_TERRAFORM_BACKEND_BUCKET }}/terraform/${{ github.event.inputs.function_name }}.tfvars
-        cat ${{ github.event.inputs.function_name }}.tfvars
         cd infras-tf
         terraform init
         terraform plan
         terraform apply -var-file="${{ github.event.inputs.function_name }}.tfvars" -auto-approve
-
+        aws s3 cp ${{ github.event.inputs.function_name }}.tfvars s3://${{ env.AWS_TERRAFORM_BACKEND_BUCKET }}/terraform/${{ github.event.inputs.function_name }}.tfvars
   deploy-layer:
     needs: build-infras
     runs-on: self-hosted
