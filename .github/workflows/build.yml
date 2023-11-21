@@ -91,7 +91,7 @@ jobs:
         
     - name: Deploy Lambda Code
       run: |
-        zip -r function.zip custom_encoder.py main.py
+        zip -r function.zip sample-source/custom_encoder.py sample-source/main.py
         aws lambda update-function-code --function-name ${{ github.event.inputs.lambdaname }} --zip-file fileb://function.zip
         aws lambda wait function-updated --function-name ${{ github.event.inputs.lambdaname }}
         aws lambda update-function-configuration --function-name ${{ github.event.inputs.lambdaname }} --region ${{ env.AWS_DEFAULT_REGION }}
