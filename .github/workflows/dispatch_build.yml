@@ -76,7 +76,7 @@ jobs:
     - name: Deploy Lambda Layer
       run: |
         mkdir -p python/lib/python3.10/site-packages/
-        pip install -r requirement.txt --target=python/lib/python3.10/site-packages/
+        pip install -r sample-source/requirement.txt --target=python/lib/python3.10/site-packages/
         zip -qr9 ${{ github.event.inputs.packagename }}.zip python
         layer_arn=$(aws lambda publish-layer-version --layer-name ${{ github.event.inputs.packagename }} --zip-file fileb://${{ github.event.inputs.packagename }}.zip --compatible-runtimes python3.10 --region ${{ env.AWS_DEFAULT_REGION }} | jq -r '.LayerVersionArn')
         aws lambda update-function-configuration --function-name ${{ github.event.inputs.function_name }} --layers $layer_arn
