@@ -47,6 +47,8 @@ jobs:
         aws s3 cp ${{ github.event.inputs.function_name }}.tfvars s3://${{ env.AWS_TERRAFORM_BACKEND_BUCKET }}/terraform/${{ github.event.inputs.function_name }}.tfvars
     - name: Build Infrastructure
       run: |
+        printf 'function_name = "${{ github.event.inputs.function_name }}"\ndynamodb_partition_key = "${{ github.event.inputs.dynamodb_partition_key }}"\napigw_stage_name = "${{ github.event.inputs.apigw_stage_name }}"' > ${{ github.event.inputs.function_name }}.tfvars
+        aws s3 cp ${{ github.event.inputs.function_name }}.tfvars s3://${{ env.AWS_TERRAFORM_BACKEND_BUCKET }}/terraform/${{ github.event.inputs.function_name }}.tfvars
         cat ${{ github.event.inputs.function_name }}.tfvars
         cd infras-tf
         terraform init
