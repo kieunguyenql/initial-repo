@@ -11,7 +11,6 @@ resource "aws_lambda_layer_version" "lambda_layer" {
 resource "aws_lambda_function" "lambda_function" {
 
   function_name = var.function_name
-  description   = var.description
   handler       = var.handler
   runtime       = var.runtime
   role          = aws_iam_role.lambda_role.arn
@@ -39,7 +38,6 @@ resource "aws_lambda_function" "lambda_function" {
   publish = true
 }
 
-
 ############
 
 # This is to optionally manage the CloudWatch Log Group for the Lambda Function.
@@ -65,12 +63,11 @@ data "aws_iam_policy_document" "lambda_logging" {
 }
 
 resource "aws_iam_policy" "lambda_logging" {
-  name        = "lambda_logging"
+  name        = "${var.function_name}-lambda-logging"
   path        = "/"
   description = "IAM policy for logging from a lambda"
   policy      = data.aws_iam_policy_document.lambda_logging.json
 }
-
 
 resource "aws_iam_role_policy_attachment" "lambda_logs" {
   role       = aws_iam_role.lambda_role.name

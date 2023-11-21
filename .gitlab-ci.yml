@@ -61,7 +61,7 @@ deploy-lambda-code:
     - export AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID_FPT"
     - export AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY_FPT"
   script:
-    - zip -r function.zip dependency.py main.py
+    - zip -r function.zip sample-source/dependency.py sample-source/main.py
     - aws lambda update-function-code --function-name ${LAMBDA_NAME} --zip-file fileb://function.zip
     - aws lambda wait function-updated --function-name ${LAMBDA_NAME}
     - aws lambda update-function-configuration --function-name ${LAMBDA_NAME} --region ${AWS_DEFAULT_REGION}

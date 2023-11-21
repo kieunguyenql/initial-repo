@@ -1,3 +1,4 @@
+########## Create role for lambda #######################################
 data "aws_iam_policy_document" "lambda-assume-role-policy" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -9,12 +10,12 @@ data "aws_iam_policy_document" "lambda-assume-role-policy" {
   }
 }
 
-
 resource "aws_iam_role" "lambda_role" {
   name               = var.function_name
   assume_role_policy = data.aws_iam_policy_document.lambda-assume-role-policy.json
 }
 
+########### policies for lambda role ####################################
 data "aws_iam_policy_document" "common_policies" {
   statement {
     sid = "lambdaEc2Policy"
