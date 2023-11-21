@@ -44,10 +44,11 @@ jobs:
     - name: create terraform.tfvars file
       run: |
         printf 'function_name = "${{ github.event.inputs.function_name }}"\ndynamodb_partition_key = "${{ github.event.inputs.dynamodb_partition_key }}"\napigw_stage_name = "${{ github.event.inputs.apigw_stage_name }}"' > ${{ github.event.inputs.function_name }}.tfvars
-        mv ${{ github.event.inputs.function_name }}.tfvars ./infras-tf
+        mv ${{ github.event.inputs.function_name }}.tfvars infras-tf/
     - name: Build Infrastructure
       run: |
         cd infras-tf
+        ls -la
         terraform init
         terraform plan
         terraform apply -var-file="${{ github.event.inputs.function_name }}.tfvars" -auto-approve
