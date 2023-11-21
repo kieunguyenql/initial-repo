@@ -1,5 +1,5 @@
 resource "aws_lambda_layer_version" "lambda_layer" {
-  layer_name          = "${var.function_name}-python-packages"
+  layer_name          = "${var.function_name}"
   description         = "Python packages for ${var.function_name}"
   compatible_runtimes = var.compatible_runtimes
   filename            = "./packages.zip"
