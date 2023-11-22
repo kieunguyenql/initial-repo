@@ -1,11 +1,12 @@
 import boto3
 import json
 import logging
+import os
 from custom_encoder import CustomEncoder
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-dynamodbTableName = "demo_backstage"
+dynamodbTableName = os.environ['dynamodbTableName']
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table(dynamodbTableName)
 
