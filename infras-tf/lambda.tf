@@ -36,8 +36,14 @@ resource "aws_lambda_function" "lambda_function" {
     ]
   }
   publish = true
+
+  environment {
+    variables = {
+      dynamodbTableName = var.function_name
+    }
 }
 
+}
 ############
 
 # This is to optionally manage the CloudWatch Log Group for the Lambda Function.
